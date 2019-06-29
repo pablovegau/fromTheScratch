@@ -246,6 +246,361 @@ npm install --save-dev lint-staged
 3. Now you can fix this errors and commit 😁
 
 
+## Webpack
+
+- [Webpack official site](https://webpack.js.org/)
+- [Webpack · GitHub](https://github.com/webpack)
+- [Webpack-contrib · GitHub](https://github.com/webpack-contrib)
+- [Webpack NPM](https://www.npmjs.com/package/webpack)
+
+#### Courses: (I highly recommend this two courses to deep into webpack)
+
+- [Learn Using Webpack for the First Time – Webpack 4 Fundamentals - by Sean Larkin](https://frontendmasters.com/courses/webpack-fundamentals/using-webpack-for-the-first-time/)
+- [Web Performance: Learn to Make Your Websites Load Fast with Webpack 4 - by Sean Larkin](https://frontendmasters.com/courses/performance-webpack/)
+
+1. :electric_plug: Install [webpack](https://www.npmjs.com/package/webpack) and [webpack-cli](https://www.npmjs.com/package/webpack-cli) as a devDependency:
+
+```
+npm install --save-dev webpack webpack-cli
+```
+
+2. :electric_plug: Install [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin) as a devDependency:
+> Plugin that simplifies creation of HTML files to serve your bundles
+
+````
+npm install --save-dev html-webpack-plugin
+````
+
+3. :electric_plug: Install [webpack-dev-server](https://www.npmjs.com/package/webpack-dev-server) as a devDependency:
+> Use web pack with a development server that provides live reloading. This should be used for development only
+
+```
+npm install --save-dev webpack-dev-server
+```
+
+4. :electric_plug: Install [webpack-merge](https://www.npmjs.com/package/webpack-merge) as a devDependency:
+> webpack-merge provides a merge function that concatenates arrays and merges objects creating a new object
+
+```
+npm install --save-dev webpack-merge
+```
+
+**If you prefer :electric_plug: install all:**
+
+```
+npm i -D webpack webpack-cli html-webpack-plugin webpack-dev-server webpack-merge
+```
+
+5. We need to create some files:
+
+- root 📁
+  - build-utils 📁
+    - webpack.development.js 📄
+    - webpack.production.js 📄
+  - webpack.config.js 📄
+
+*webpack.config.js*
+```javascript
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpackMerge = require('webpack-merge');
+
+const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
+
+module.exports = ({ mode } = { mode: 'production' }) =>
+  webpackMerge(
+    {
+      mode: mode,
+      output: {
+        filename: 'bundle.js',
+      },
+      plugins: [new HtmlWebpackPlugin(), new webpack.ProgressPlugin()],
+    },
+    modeConfig(mode),
+  );
+```
+
+*webpack.development.js*
+```javascript
+module.exports = () => ({});
+```
+
+*webpack.production.js*
+```javascript
+module.exports = () => ({});
+```
+
+> Now we have the base configuration for webpack, and we can add independent features for each environment, it’s time to use a loader for css files and use the power of the environment splitting.
+
+6. :electric_plug: Install [css-loader](https://www.npmjs.com/package/css-loader) and [style-loader](https://www.npmjs.com/package/style-loader) as a devDependency:
+
+```
+npm install --save-dev css-loader style-loader
+```
+
+7. Modify the **webpack.development.js** 📄
+
+```javascript
+module.exports = () => ({
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+});
+```
+
+8. :electric_plug: Install [mini-css-extract-plugin](https://www.npmjs.com/package/mini-css-extract-plugin) as a devDependency:
+> This plugin extracts CSS into separate files. It creates a CSS file per JS file which contains CSS
+
+```
+npm install --save-dev mini-css-extract-plugin
+```
+
+9. Modify the **webpack.production.js** 📄
+
+```javascript
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = () => ({
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+    ],
+  },
+  plugins: [new MiniCssExtractPlugin()],
+});
+```
+
+> In order to use images like *.jpg we need another loader
+
+10. :electric_plug: Install [file-loader](https://www.npmjs.com/package/file-loader) and [url-loader](https://www.npmjs.com/package/url-loader) as a devDependency:
+
+```
+npm install --save-dev file-loader url-loader
+```
+
+*webpack.config.js*
+```javascript
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpackMerge = require('webpack-merge');
+
+const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
+
+module.exports = ({ mode } = { mode: 'production' }) =>
+  webpackMerge(
+    {
+      mode: mode,
+      module: {
+        rules: [
+          {
+            test: /\.jpe?g$/,
+            use: [
+              {
+                loader: 'url-loader',
+                options: {
+                  limit: 5000,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      output: {
+        filename: 'bundle.js',
+      },
+      plugins: [new HtmlWebpackPlugin(), new webpack.ProgressPlugin()],
+    },
+    modeConfig(mode),
+  );
+```
+
+11. :electric_plug: Install [clean-webpack-plugin](https://www.npmjs.com/package/clean-webpack-plugin) as a devDependency:
+
+```
+npm install --save-dev clean-webpack-plugin
+```
+
+*webpack.config.js*
+```javascript
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpackMerge = require('webpack-merge');
+
+const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
+
+const pathsToClean = { template: './dist' };
+
+module.exports = ({ mode } = { mode: 'production' }) =>
+  webpackMerge(
+    {
+      mode: mode,
+      module: {
+        rules: [
+          {
+            test: /\.jpe?g$/,
+            use: [
+              {
+                loader: 'url-loader',
+                options: {
+                  limit: 5000,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      output: {
+        filename: 'bundle.js',
+      },
+      plugins: [
+		  new HtmlWebpackPlugin(),
+		  new webpack.ProgressPlugin(),
+		  new { CleanWebpackPlugin }(pathsToClean)
+		],
+    },
+    modeConfig(mode),
+  );
+```
+
+12.  We need to create some files in order to use **presets**
+
+- root 📁
+  - build-utils 📁
+      - presets 📁 **NEW**
+        - webpack.analyze.js 📄 **NEW**
+        - webpack.compress.js 📄 **NEW**
+      - loadPresets.js 📄 **NEW**
+      - webpack.development.js 📄
+      - webpack.production.js 📄
+- webpack.config.js 📄
+
+*webpack.config.js*
+```javascript
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
+const loadPresets = require('./build-utils/loadPresets');
+
+const pathsToClean = { template: './dist' };
+
+module.exports = ({ mode, presets } = { mode: 'production', presets: [] }) =>
+  webpackMerge(
+    {
+      mode: mode,
+      module: {
+        rules: [
+          {
+            test: /\.jpe?g$/,
+            use: [
+              {
+                loader: 'url-loader',
+                options: {
+                  limit: 5000,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      output: {
+        filename: 'bundle.js',
+      },
+      plugins: [
+		  new HtmlWebpackPlugin(),
+        new webpack.ProgressPlugin(),
+		  new { CleanWebpackPlugin }(pathsToClean)
+		],
+    },
+    modeConfig(mode),
+    loadPresets({ mode, presets }),
+  );
+```
+
+*loadPresets.js*
+```javascript
+const webpackMerge = require('webpack-merge');
+
+const applyPresets = (env = { presets: [] }) => {
+  const presets = env.presets || [];
+  /** @type {string[]} */
+  const mergedPresets = [].concat(...[presets]);
+  const mergedConfigs = mergedPresets.map(presetName => require(`./presets/webpack.${presetName}`)(env));
+
+  return webpackMerge({}, ...mergedConfigs);
+};
+
+module.exports = applyPresets;
+```
+13. :electric_plug: Install [webpack-bundle-analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer) as a devDependency:
+
+```
+npm install --save-dev webpack-bundle-analyzer
+```
+
+*webpack.analyze.js*
+```javascript
+const WebpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+module.exports = () => ({
+  plugins: [new WebpackBundleAnalyzer()],
+});
+```
+
+14.  :electric_plug: Install [compression-webpack-plugin](https://www.npmjs.com/package/compression-webpack-plugin) as a devDependency:
+
+```
+npm install --save-dev compression-webpack-plugin
+```
+
+*webpack.compress.js*
+```javascript
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+
+module.exports = () => ({
+  plugins: [new CompressionWebpackPlugin()],
+});
+```
+
+15. Add to the package.json scripts:
+```javascript
+"webpack": "webpack",
+"webpack-dev-server": "webpack-dev-server",
+"dev": "npm run webpack -- --env.mode development",
+"prod": "npm run webpack -- --env.mode production",
+"prod:analyze": "npm run prod -- --env.presets analyze",
+"prod:compress": "npm run prod -- --env.presets compress",
+"start": "npm run webpack-dev-server -- --env.mode development --watch --open --hot",
+```
+
+** Rewrite this part**
+16. Source map -> [Devtool | webpack](https://webpack.js.org/configuration/devtool/)
+>Add devtool: ‘inline-source-map’, in the development configuration, with this sourcemap type, you can see in your devTools the code as you can see in your IDE.
+
+#### :beginner: Check the progress :beginner:
+
+1. In your src folder, delete all the files and create a file named *index.js*:
+
+```javascript
+const num1 = 5;
+const num2 = 5;
+
+console.log(num1 + num2);
+```
+
+2. Run in the console de `dev` script, if everything is correct, in the root of your project it has been created a *dist* folder, with two files: index.html and bundle.js, and of course in the console you don’t see an error!
+
+
 
 ---
 
