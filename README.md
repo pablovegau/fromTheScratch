@@ -601,6 +601,208 @@ console.log(num1 + num2);
 2. Run in the console de `dev` script, if everything is correct, in the root of your project it has been created a *dist* folder, with two files: index.html and bundle.js, and of course in the console you don’t see an error!
 
 
+## React
+
+1. 🔌 Install [React](https://www.npmjs.com/package/react) and [React-dom](https://www.npmjs.com/package/react-dom) as a dependency:
+
+```
+npm install --save react react-dom
+```
+
+2. Modify *.eslintrc* with the React extension:
+
+*eslintrc*
+```json
+"extends": [
+    "plugin:react/recommended"
+]
+```
+
+## Babel
+
+1. 🔌 Install as a devDependencies:
+
+- [@babel/core](https://www.npmjs.com/package/@babel/core) - Transforms your ES6 code into ES5
+- [@babel/preset-env](https://www.npmjs.com/package/@babel/preset-env) - Determines which transformations/plugins to use and polyfills (provide modern functionality on older browsers that do not natively support it) based on the browser matrix you want to support
+- [@babel/preset-react](https://www.npmjs.com/package/@babel/preset-react) - Babel preset for all React plugins, for example turning JSX into functions
+- [babel-loader](https://www.npmjs.com/package/babel-loader) - Webpack helper to transform your JavaScript dependencies (for example, when you import your components into other components) with Babel
+- [@babel/plugin-proposal-class-properties](https://www.npmjs.com/package/@babel/plugin-proposal-class-properties) - This plugin transforms es2015 static class properties as well as properties declared with the es2016 property initializer syntax.
+- [babel-eslint](https://www.npmjs.com/package/babel-eslint) - Allows you to lint all valid Babel code with the fantastic  ESLint
+
+```
+npm install --save-dev @babel/core @babel/preset-env @babel/preset-react babel-loader @babel/plugin-proposal-class-properties babel-eslint
+```
+
+> Temporary descriptions by https://reancode.wordpress.com/2018/05/21/why-using-babel-in-react-js/
+
+2. Modify the *webpack.config.js* to use babel-loader and change how to use the *html-webpack-plugin*:
+
+*webpack.config.js*
+```javascript
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
+const loadPresets = require('./build-utils/loadPresets');
+
+const pathsToClean = { template: './dist' };
+
+const htmlPlugin = new HtmlWebPackPlugin({
+  template: './src/index.html',
+  filename: './index.html',
+});
+
+module.exports = ({ mode, presets } = { mode: 'production', presets: [] }) =>
+  webpackMerge(
+    {
+      mode: mode,
+      module: {
+        rules: [
+          {
+            test: /\.jpe?g$/,
+            use: [
+              {
+                loader: 'url-loader',
+                options: {
+                  limit: 5000,
+                },
+              },
+            ],
+          },
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            use: {
+              loader: 'babel-loader',
+            },
+          },
+        ],
+      },
+      output: {
+        filename: 'bundle.js',
+      },
+      plugins: [htmlPlugin, new webpack.ProgressPlugin(), new { CleanWebpackPlugin }(pathsToClean)],
+    },
+    modeConfig(mode),
+    loadPresets({ mode, presets }),
+  );
+```
+
+3. Modify *.eslint* to add the **babel-eslint** like a parser:
+
+*.eslintrc*
+```javascript
+{
+  "extends": [
+    "eslint:recommended",
+    "prettier",
+    "prettier/react",
+    "plugin:react/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "parser": "babel-eslint", // ⬅️⬅️⬅️✅
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "prettier"],
+  "globals": {
+    "React": true
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "no-console": "off"
+  }
+}
+```
+
+4. ✏️ Create in the project root a new file, named *.babelrc*:
+
+*.babelrc*
+```javascript
+{
+  "presets": [
+    "@babel/preset-react",
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": ["last 2 versions"]
+        }
+      }
+    ]
+  ],
+  "plugins": ["@babel/plugin-proposal-class-properties"],
+  "sourceMaps": true,
+  "retainLines": true
+}
+```
+
+#### 🔰Check the progress 🔰
+
+1. Into our *src* folder we are going to create 3 files: *index.html*, *index.js*, *index.css*:
+
+*index.html*
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Character selector</title>
+</head>
+
+<body>
+  <section id="root"></section>
+</body>
+
+</html>
+```
+
+*index.css*
+```css
+.puurrProgramming {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+}
+
+.puurrProgramming img {
+  width: 600px;
+  padding-top: 1rem;
+}
+```
+
+*index.js*
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+
+function App() {
+  return (
+    <div className="puurrProgramming">
+      At home doing puurr programming :D
+      <img src="https://goo.gl/6ZvMCL" />
+    </div>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+2. Now if everything is fine and you run in your console `npm start` it open your navigator and show a red Hello World!
 
 ---
 
