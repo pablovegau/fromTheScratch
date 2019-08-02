@@ -964,8 +964,6 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 ## Testing
 
-<!-- TODO: Make a testing description -->
-> 📖
 
 ### Cypress
 
@@ -1003,7 +1001,7 @@ npx cypress open
 }
 ```
 
-5. ✏️ Modify ***.eslintrc*** adding in the env array the ***”cypress/globals”: true***
+5. ✏️ Modify ***.eslintrc*** adding in the env array the **”cypress/globals”: true**
 
 ```javascript
 {
@@ -1106,7 +1104,7 @@ import './commands'
 
 #### 🔰Check the progress 🔰
 
-1. First of all is necessary to modify the ✏️ *kitten.js* file adding a data-tested in order to Cypress can find the node
+1. First of all is necessary to modify the ✏️ ***kitten.js*** file adding a data-tested in order to Cypress can find the node
 
 ```javascript
 import React from 'react';
@@ -1123,7 +1121,7 @@ function kitten() {
 export default kitten;
 ```
 
-2. After that we can create a new test named 📄 *showMeTheKitten.e2e.js* into the e2e test folder create before
+2. After that we can create a new test named 📄 ***showMeTheKitten.e2e.js*** into the e2e test folder create before
 
 ```javascript
 describe('Kitten app', () => {
@@ -1208,12 +1206,12 @@ npm install --save-dev jest-dom
 2. Into our test we use all the methods of jest-dom writing:
 
 ```
-`import 'jest-dom/extend-expect'`
+import 'jest-dom/extend-expect'
 ```
 
 🔰**Check the progress** 🔰
 
-1. Into the src folder 📁 create a new folder named `__test__`, inside of it 📄 a new test file, for example *app.spec.js*
+1. Into the src folder 📁 create a new folder named `__test__`, inside of it 📄 a new test file, for example ***app.spec.js***
 
 ```javascript
 import 'jest-dom/extend-expect'; // ⬅️⬅️⬅️ Jest-dom
@@ -1274,7 +1272,22 @@ function kitten() {
 
 export default kitten;
 ```
+---
 
+<!-- TODO: modify babel polyfill -->
+Babel polyfill was deprecated, use this: https://babeljs.io/docs/en/next/babel-polyfill.html
+
+In order to use async/await in our test, we need 🔌install [@babel/polyfill](https://www.npmjs.com/package/@babel/polyfill)
+
+```
+npm install --save-dev @babel/polyfill
+```
+> Then import it in each test that use this functionality
+
+```
+import '@babel/polyfill'
+```
+---
 
 *kitten.spec.js*
 ```javascript
