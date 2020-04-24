@@ -1,10 +1,11 @@
 # React from the scratch
 
-> In the end, this is not more than a boilerplate to start a project, the difference is here you are going to install and config every dependency in the future project. In a near future, you became a better developer, because you are the owner of your project, and you know exactly what is every dependency. You need to take control of the wild magic!
+// TODO: check if fix CleanWebpackPlugin is ready
+
+> In the end, this is not more than a boilerplate to start a project, the difference is that you are going to install and config every dependency in your next project. In a near future, you became a better developer, because you are the owner of your project, and you know exactly what is every dependency. You need to take control of the wild magic!
 
 ---
-
-#### Courses that I have done before to write this guide:
+## Courses that I have done before to write this guide:
 
 ##### React
 - [Complete Intro to React](https://frontendmasters.com/courses/complete-react-v5) by [Brian Holt](https://twitter.com/holtbt)
@@ -19,15 +20,24 @@
 - [Testing React Applications](https://frontendmasters.com/courses/testing-react/) by [Kent C. Dodds](https://twitter.com/kentcdodds)
 - [Testing Javascript](https://testingjavascript.com/) by [Kent C. Dodds](https://twitter.com/kentcdodds)
 
+##### Storybook
+
+- [Storybook: Getting Started](https://app.pluralsight.com/library/courses/storybook-getting-started/table-of-contents) by [Nate Taylor](https://twitter.com/taylonr)
+
 ---
+
 
 ## Version control
 
 ### Git
 
+- [Git webpage](https://git-scm.com/)
+
 > 📖 **Git** is a **distributed version-control** system for tracking changes in **source code** during software development. It is designed for coordinating work among programmers, but it can be used to track changes in any set of files. Its goals include speed, data integrity, and support for distributed, non-linear workflows. [Wikipedia](https://en.wikipedia.org/wiki/Git)
 
 ### Github :octocat:
+
+- [Github website](https://github.com/)
 
 > 📖 GitHub is an American company that provides hosting for software development version control using Git [Wikipedia](https://en.wikipedia.org/wiki/GitHub)
 
@@ -50,7 +60,20 @@
 > Now you have a new file in your project root, named ***package.json***
 
 
-## .gitignore
+## Phoenix script
+
+1. ✏️ Modify ***package.json*** adding this script
+
+> The function of these script is to reset the project in order to correct errors
+
+```json
+"scripts": {
+  "phoenix": "npx rimraf node_modules && npm i",
+  "ancientPhoenix": "npx rimraf node_modules package-lock.json && npm i"
+}
+```
+
+## Gitignore
 
 > 📖 A **gitignore** file specifies intentionally untracked files that Git should ignore
 
@@ -66,8 +89,9 @@
   dist
   ```
 
-
 ## ESLint
+
+> ESLint section and Prettier sections could be outdated, use [lira-lint](https://www.npmjs.com/package/lyra-lint) instead
 
 > 📖 **ESLint** is a **static code analysis** tool for identifying problematic patterns found in **JavaScript** code. Rules in ESLint are configurable, and customized rules can be defined and loaded. ESLint covers both **code quality** and coding style issues. ESLint supports current standards of ECMAScript, and experimental syntax from drafts for future standards. [Wikipedia](https://en.wikipedia.org/wiki/ESLint)
 
@@ -83,8 +107,10 @@ npm install --save-dev eslint
 ```
 
 2. Now you can:
-   - ▶️ Run into the command line `./node_modules/.bin/eslint --init` and follow the questions to config the initial ESLint file. When the installer ask about install ***eslint-plugin-react*** say yes.
-   - Or 📄create a new file named ***.eslintrc*** in the root of your project, here belong the configurations related with **ESLint**. Then 🔌 install manually ***eslint-plugin-react*** as devDependency: `npm install --save-dev eslint-plugin-react`
+   - ▶️ Run into the command line `./node_modules/.bin/eslint --init` and follow the questions to config the initial ESLint file. Select JSON format. When the installer ask about install **eslint-plugin-react** say yes.
+   - Or 📄create a new file named ***.eslintrc*** in the root of your project, here belong the configurations related with **ESLint**. Then 🔌 install manually **eslint-plugin-react** as devDependency: `npm install --save-dev eslint-plugin-react`
+
+> If you select JSON file, go to the file and delete the .json extension
 
 > 📖 ***eslint-plugin-react*** add React specific linting rules for ESLint
 
@@ -124,8 +150,8 @@ Example of ***.eslintrc***
 #### 🔰Check the progress 🔰
 
 1. 📁Create a folder named ***src***.
-2. Inside of *src* 📄create a file named ***wathevername.js***
-3. Inside of ***wathevername.js*** add this code:
+2. Inside of *src* 📄create a file named ***whatevername.js***
+3. Inside of ***whatevername.js*** add this code:
 
 ```javascript
 const num1 = 5
@@ -136,7 +162,7 @@ const text = "My cats Auri and Lyra are so cute" // 'text' is assigned a value b
 console.log(num1 + num2) // Unexpected console statement.eslint(no-console)
 ```
 
-> If you see this errors is perfect 👌, now if you run ▶️ `"lint": "eslint \"**/*.{js,jsx}\""`  you can see the same errors in the console
+> If you see this errors is perfect 👌, now if you ▶️ run `npm run lint` you can see the same errors in the console
 
 #### 🆚VSCode users:
 
@@ -208,9 +234,16 @@ example of ***.prettierrc***
 
 ```json
 {
-  "plugins": ["prettier"],
-  "extends": ["prettier"],
+  "plugins": [
+    // ...
+    "prettier"
+  ],
+  "extends": [
+    // ...
+    "prettier"
+  ],
   "rules": {
+    // ...
     "prettier/prettier": "error"
   }
 }
@@ -247,50 +280,23 @@ example of ***.prettierrc***
 "prettier.requireConfig": true
 ```
 
-## Husky
+## Lint-staged & Husky
 
-> 📖 Easy Git hooks control (git hooks are custom scripts, which can be run automatically when specific events occur)
+> 📖 Lint-staged:
 
-- [Husky GitHub page](https://github.com/typicode/husky)
+- [Lint-staged GitHub](https://github.com/okonet/lint-staged)
+- [Lint-staged NPM](https://www.npmjs.com/package/lint-staged)
 
-1. 🔌 Install [Husky](https://www.npmjs.com/package/husky) as a devDependency:
+> 📖 Husky: Easy Git hooks control (git hooks are custom scripts, which can be run automatically when specific events occur)
 
-```
-`npm install --save-dev husky`
-```
+- [Husky GitHub](https://github.com/typicode/husky)
+- [Husky NPM](https://www.npmjs.com/package/husky)
 
-2. ✏️ Modify ***package.json*** adding **Husky** config:
+> ❗️ You must have installed as a devDependency: prettier, eslint and stylelint (only the requireds in your own project). If you don't install these packages, after run the next step, it throw and error.
 
-```json
-"husky": {
-  "hooks": {
-    "pre-commit": "npm run validate",
-    "pre-push": "npm run validate"
-  }
-}
-```
+1. ▶️ Run `npx mrm lint-staged`, with this command, it will be installed **lint-staged** and **husky**, also add a initial configuration for this packages in the ***package.json**.
 
-> Now when we do a commit or a push, Husky is watching and execute the proper hook
-
-#### 🔰Check the progress 🔰
-1. ⏮Return the code to the previous point, before format the code with Prettier
-2. With the errors in ***whateverfile.js*** try to commit the changes
-3. If everything is fine the commit fails because the lint throw the 3 previous errors
-
-> Don't fix the errors yet, we will fix it in the next section
-
-
-## Lint staged
-
-- [Lint-staged GitHub page](https://github.com/okonet/lint-staged)
-
-1. 🔌 Install [lint-staged](https://www.npmjs.com/package/lint-staged) as a devDependency:
-
-```
-npm install --save-dev lint-staged
-```
-
-2. ✏️ Modify in the ***package.json*** the **Husky** configuration, now using **lint-staged**:
+2. ✏️ Modify ***package.json*** adding **lint-staged** and **husky** configurations
 
 ```json
 "husky": {
@@ -298,17 +304,15 @@ npm install --save-dev lint-staged
     "pre-commit": "lint-staged",
     "pre-push": "lint-staged"
   }
-}
-```
-
-3.  📄Create a new file, named ***.lintstagedrc***:
-
-```json
-{
-  "linters": {
-    "**/*.{js,jsx}": ["eslint"],
-    "**/*.{js,jsx,css,json}": ["prettier --write", "git add"]
-  }
+},
+"lint-staged": {
+  "**/*.{js,jsx}": [
+    "eslint"
+  ],
+  "**/*.{js,jsx,css,json}": [
+    "format",
+    "git add"
+  ]
 }
 ```
 
@@ -338,6 +342,8 @@ npm install --save-dev lint-staged
 ---
 
 1. 🔌 Install [webpack](https://www.npmjs.com/package/webpack) and [webpack-cli](https://www.npmjs.com/package/webpack-cli) as a devDependency:
+
+<!-- TODO: Add webpack-cli description -->
 
 ```
 npm install --save-dev webpack webpack-cli
@@ -557,7 +563,7 @@ module.exports = ({ mode } = { mode: 'production' }) =>
       plugins: [
         new HtmlWebpackPlugin(),
         new webpack.ProgressPlugin(),
-        new { CleanWebpackPlugin }(pathsToClean)
+        new CleanWebpackPlugin(pathsToClean)
       ],
     },
     modeConfig(mode),
@@ -612,7 +618,7 @@ module.exports = ({ mode, presets } = { mode: 'production', presets: [] }) =>
       plugins: [
         new HtmlWebpackPlugin(),
         new webpack.ProgressPlugin(),
-        new { CleanWebpackPlugin }(pathsToClean)
+        new CleanWebpackPlugin(pathsToClean)
       ],
     },
     modeConfig(mode),
@@ -714,13 +720,16 @@ console.log(num1 + num2);
 
 ## React
 
-1. 🔌 Install [React](https://www.npmjs.com/package/react) as a dependency:
+- [React webpage](https://en.reactjs.org/)
+- [React Github](https://github.com/facebook/react)
+
+1. 🔌 Install [React](https://www.npmjs.com/package/react) as a dependency
 
 ```
 npm install --save react
 ```
 
-2. 🔌 Install [React-dom](https://www.npmjs.com/package/react-dom) as a dependency:
+2. 🔌 Install [React-dom](https://www.npmjs.com/package/react-dom) as a dependency
 
 > 📖 This package serves as the entry point to the DOM and server renderers for React. It is intended to be paired with the generic React package, which is shipped as react to npm.
 
@@ -728,16 +737,47 @@ npm install --save react
 npm install --save react-dom
 ```
 
-3. Modify ***.eslintrc*** with the React extension:
+3. ✏️ Modify ***.eslintrc*** with the React extension
 
 *eslintrc*
 ```json
 "extends": [
-    "plugin:react/recommended"
+  // ...
+  "plugin:react/recommended"
 ]
 ```
 
+4. 🔌 Install [eslint-plugin-react-hooks](https://www.npmjs.com/package/eslint-plugin-react-hooks) as a devDependency
+
+> 📖 This ESLint plugin enforces the [Rules of Hooks](https://reactjs.org/docs/hooks-rules.html).
+
+```
+npm install --save-dev eslint-plugin-react-hooks
+```
+
+5. ✏️ Modify ***.eslintrc*** file adding react hooks plugin and rules
+
+```json
+{
+  "plugins": [
+    // ...
+    "react-hooks"
+  ],
+  "rules": {
+    // ...
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  }
+}
+```
+
 ## Babel
+
+<!-- TODO: Check the babel descriptions -->
+
+- [Babel webpage](https://babeljs.io/)
+- [Babel Github](https://github.com/babel/babel)
+- [Babel - Try it out](https://babeljs.io/repl)
 
 1. 🔌 Install [@babel/core](https://www.npmjs.com/package/@babel/core) as a devDependency:
 
@@ -787,7 +827,7 @@ npm install --save-dev @babel/plugin-proposal-class-properties
 npm install --save-dev babel-eslint
 ```
 
-> 📖 If you prefer 🔌 install all the packages at the same time
+> If you prefer 🔌 install all the packages at the same time
 
 ```
 npm install --save-dev @babel/core @babel/preset-env @babel/preset-react babel-loader @babel/plugin-proposal-class-properties babel-eslint
@@ -795,7 +835,7 @@ npm install --save-dev @babel/core @babel/preset-env @babel/preset-react babel-l
 
 > Temporary descriptions by https://reancode.wordpress.com/2018/05/21/why-using-babel-in-react-js/
 
-2. ✏️ Modify the ***webpack.config.js*** to use **babel-loader** and change how to use the **html-webpack-plugin**:
+7. ✏️ Modify the ***webpack.config.js*** to use **babel-loader** and change how to use the **html-webpack-plugin**:
 
 ```javascript
 const webpack = require('webpack');
@@ -841,48 +881,40 @@ module.exports = ({ mode, presets } = { mode: 'production', presets: [] }) =>
       output: {
         filename: 'bundle.js',
       },
-      plugins: [htmlPlugin, new webpack.ProgressPlugin(), new { CleanWebpackPlugin }(pathsToClean)],
+      plugins: [htmlPlugin, new webpack.ProgressPlugin(), new CleanWebpackPlugin(pathsToClean)],
     },
     modeConfig(mode),
     loadPresets({ mode, presets }),
   );
 ```
 
-3. ✏️ Modify ***.eslint*** to add the **babel-eslint** like a parser:
+8. ✏️ Modify ***.eslint*** to add the **babel-eslint** like a parser:
 
 ```javascript
 {
   "extends": [
-    "eslint:recommended",
-    "prettier",
-    "prettier/react",
-    "plugin:react/recommended"
+    // ...
   ],
   "env": {
-    "browser": true,
-    "es6": true,
-    "node": true
+    // ...
   },
   "parser": "babel-eslint", // ⬅️⬅️⬅️✅
   "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 2018,
-    "sourceType": "module"
+    // ...
   },
-  "plugins": ["react", "prettier"],
+  "plugins": [
+    // ...
+  ],
   "globals": {
-    "React": true
+    // ...
   },
   "rules": {
-    "prettier/prettier": "error",
-    "no-console": "off"
+    // ...
   }
 }
 ```
 
-4. 📄 Create a new file in the project root, named ***.babelrc***:
+8. 📄 Create a new file in the project root, named ***.babelrc***:
 
 ```javascript
 {
@@ -959,11 +991,245 @@ function App() {
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-2. Now if everything is fine and you run in your console `npm start` it open your navigator and show a red Hello World!
+2. Now if everything is fine and you run in your console `npm start` it open your navigator and show a text: *At home doing puurr programming :D* and a photo of a precious kitten
+
+
+## A11y
+
+- [A11y project](https://a11yproject.com/)
+
+1. 🔌 Install [eslint-plugin-jsx-a11y](https://www.npmjs.com/package/eslint-plugin-jsx-a11y) as a devDependency
+
+> 📖 Static AST checker for accessibility rules on JSX elements
+
+```
+npm install --save-dev eslint-plugin-jsx-a11y
+```
+
+2. ✏️ Modify ***.eslintrc*** adding the **jsx-a11y** plugin, and **plugin:jsx-a11y/recommended** extends
+
+```json
+{
+  "plugins":[
+    // ...
+    "jsx-a11y"
+  ],
+  "extends":[
+    // ...
+    "plugin:jsx-a11y/recommended"
+  ]
+}
+```
+
+#### 🔰Check the progress 🔰
+
+1. If everything is fine we have a new error, related with accessibility, in *index.js*. The error says that img element must have an alt prop
+
+2. ✏️ Modify the ***index.js*** adding the alt property to the img tag
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+
+function App() {
+  return (
+    <div className="superHelloWorld">
+      At home doing some puur programming :D
+      <img src="https://goo.gl/6ZvMCL" alt="the cuttiest kitten programming" />
+    </div>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+## Code splitting (with Webpack)
+
+<!-- TODO: Probablemente ustedes no tenga errores al ejecutar el dynamic import sin instalar la dependecia @babel/plugin-syntax-dynamic-import y es que el 4 de Julio de 2019 en la versión 7.5.0 de babel esta característica se añadió al paquete @babel/preset-env justo como sale en esta nota de release en el repo oficial babel en github. -->
+
+- [Webpack - Code Splitting](https://webpack.js.org/guides/code-splitting/)
+
+1. 🔌 Install [babel-plugin-syntax-dynamic-import](https://www.npmjs.com/package/babel-plugin-syntax-dynamic-import) as a devDependency
+
+> 📖 babel plugin that offer the dynamic import syntax
+
+```
+npm install --save-dev @babel/plugin-syntax-dynamic-import
+```
+
+2. ✏️ Modify ***.babelrc*** adding this plugin
+
+```javascript
+{
+  "presets": [
+    "@babel/preset-react",
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": ["last 2 versions"]
+        }
+      }
+    ]
+  ],
+  "plugins": ["@babel/plugin-proposal-class-properties", "@babel/plugin-syntax-dynamic-import"],
+  "sourceMaps": true,
+  "retainLines": true
+}
+```
+
+3. ✏️ Modify ***webpack.config.js*** in order to use code splitting
+
+```javascript
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
+const loadPresets = require('./build-utils/loadPresets');
+
+const pathsToClean = { template: './dist' };
+
+const htmlPlugin = new HtmlWebPackPlugin({
+  template: './src/index.html',
+  filename: './index.html',
+});
+
+module.exports = ({ mode, presets } = { mode: 'production', presets: [] }) =>
+  webpackMerge(
+    {
+      mode: mode,
+      module: {
+        rules: [
+          {
+            test: /\.jpe?g$/,
+            use: [
+              {
+                loader: 'url-loader',
+                options: {
+                  limit: 5000,
+                },
+              },
+            ],
+          },
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            use: {
+              loader: 'babel-loader',
+            },
+          },
+        ],
+      },
+      output: {
+        filename: 'bundle.js',
+        chunkFilename: '[name].lazy-chunk.js',  // ⬅️⬅️⬅️✅
+      },
+      plugins: [htmlPlugin, new webpack.ProgressPlugin(), new CleanWebpackPlugin(pathsToClean)],
+    },
+    modeConfig(mode),
+    loadPresets({ mode, presets }),
+  );
+```
+
+#### 🔰Check the progress 🔰
+
+1. Now let’s separate our ***index.js*** in three parts and add a button to use the code splitting
+
+*index.js*
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './app';
+import './index.css';
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+*app.js*
+```javascript
+import React, { Component, lazy, Suspense } from 'react';
+const Kitten = lazy(() => import(/* webpackChunkName: "Kitten" */ './kitten')); // ⬅️⬅️⬅️✅
+
+class App extends Component {
+  state = {
+    show: false,
+    buttonText: 'Show',
+  };
+
+  _onShow = () => {
+    this.setState({
+      show: !this.state.show,
+      buttonText: this.state.buttonText === 'Show' ? 'Hide' : 'Show',
+    });
+  };
+
+  render() {
+    return (
+      <div>
+        <button onClick={this._onShow}>{this.state.buttonText}</button>
+        {this.state.show && (
+          <Suspense fallback={<div>loading</div>}> // ⬅️⬅️⬅️✅
+            <Kitten />
+          </Suspense> // ⬅️⬅️⬅️✅
+        )}
+      </div>
+    );
+  }
+}
+
+export default App;
+```
+
+*kitten.js*
+```javascript
+import React from 'react';
+
+function kitten() {
+  return (
+    <div className="cuttiesKitten">
+      At home doing some puur programming :D
+      <img src="https://goo.gl/6ZvMCL" alt="the cuttiest kitten programming" />
+    </div>
+  );
+}
+
+export default kitten;
+```
+
+2. ✏️ Modify the ***index.css*** file
+
+```css
+.cuttiesKitten {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+}
+
+.cuttiesKitten img {
+  width: 600px;
+  padding-top: 1rem;
+}
+
+button {
+  padding: .5rem 1rem;
+  font-size: 1.2em;
+}
+```
+
+3. Now ▶️ run `npm start` and open your devTools.
+
+4. Go to the network tab, you can see a network request named ***bundle.js***
+
+5. Click the show button, and if everything is correct you can see a new network request named ***Kitten.lazy-chunk.js*** and an image.
 
 
 ## Testing
 
+- [Cypress website](https://www.cypress.io/)
+- [Cypress Github](https://github.com/cypress-io/cypress)
 
 ### Cypress
 
@@ -996,7 +1262,8 @@ npx cypress open
 ```json
 {
   "plugins":[
-      "cypress"
+    // ...
+    "cypress"
   ]
 }
 ```
@@ -1006,7 +1273,8 @@ npx cypress open
 ```javascript
 {
   "env":[
-      "cypress/globals": true
+    // ...
+    "cypress/globals": true
   ]
 }
 ```
@@ -1018,7 +1286,8 @@ cypress/videos
 cypress/screenshots
 ```
 
-7. Now we can 💣 delete the examples folder
+7. Now we can 💣 delete the examples folder inside the **cypress/integration** folder
+
 8. ✏️ Modify the *baseUrl* for our tests in ***cypress.json***
 
 ```json
@@ -1072,7 +1341,7 @@ npm install --save-dev start-server-and-test
 ```javascript
 "husky": {
   "hooks": {
-     "pre-commit": "lint-staged && test:e2e:run",
+     "pre-commit": "lint-staged",
      "pre-push": "lint-staged && test:e2e:run"
   }
 }
@@ -1087,19 +1356,22 @@ module.exports = (on, config) => {}
 
 ### Cypress-testing-library
 
+- [Cypress Testing Library webpage](https://testing-library.com/docs/cypress-testing-library/intro)
+- [Cypress Testing Library Github](https://github.com/testing-library/cypress-testing-library)
+
 > 📖 Simple and complete custom Cypress commands and utilities that encourage good testing practices
 
 1. 🔌 Install [@testing-library/cypress](https://www.npmjs.com/package/@testing-library/cypress) as a devDependency
 
 ```
-npm install —save-dev @testing-library/cypress
+npm install --save-dev @testing-library/cypress
 ```
 
-2. ✏️ Modify *cypress/support/index.js* and add the ***@testing-library/cypress*** extensions commands
+2. ✏️ Modify ***cypress/support/index.js*** and add the **@testing-library/cypress** extensions commands
 
 ```javascript
-import '@testing-library/cypress/add-commands'
-import './commands'
+import '@testing-library/cypress/add-commands';
+import './commands';
 ```
 
 #### 🔰Check the progress 🔰
@@ -1139,25 +1411,29 @@ describe('Kitten app', () => {
 
 ### Jest
 
+- [Jest website](https://jestjs.io/)
+- [Jest Github](https://github.com/facebook/jest)
+
 > 📖 Jest is a JavaScript Testing Framework
 
 1. 🔌 Install [jest](https://www.npmjs.com/package/jest) as a devDependency:
 
 ```
-`npm install --save-dev jest`
+npm install --save-dev jest
 ```
 
 2. 🔌 Install [react-test-renderer](https://www.npmjs.com/package/react-test-renderer) as a devDependency:
 
 > 📖 react-test-renderer makes it easy to grab a snapshot of the "DOM tree" rendered by a React DOM component without using a browser or jsdom.
 ```
-`npm install --save-dev react-test-renderer`
+npm install --save-dev react-test-renderer
 ```
 
 3. ✏️ Modify your ***.eslintrc*** adding jest as a environment
 
 ```javascript
 "env": {
+  // ...
   "jest": true
 }
 ```
@@ -1182,8 +1458,11 @@ describe('Kitten app', () => {
 }
 ```
 
-
 ### React-testing-library
+
+- [React Testing Library webpage](https://testing-library.com/docs/react-testing-library/intro)
+- [React Testing Library Github](https://github.com/testing-library/react-testing-library)
+- [React Testing Library examples](https://react-testing-examples.com/jest-rtl/)
 
 > 📖 Simple and complete custom React DOM testing utilities that encourage good testing practices
 
@@ -1195,30 +1474,31 @@ npm install --save-dev @testing-library/react
 
 ### Jest dom
 
+- [Jest-dom Github](https://github.com/testing-library/jest-dom)
+
 > 📖 Custom jest matchers to test the state of the DOM
 
 1. 🔌 Install [jest-dom](https://www.npmjs.com/package/jest-dom) as a devDependency
 
 ```
-npm install --save-dev jest-dom
+npm install --save-dev @testing-library/jest-dom
 ```
 
 2. Into our test we use all the methods of jest-dom writing:
 
 ```
-import 'jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect'
 ```
 
-🔰**Check the progress** 🔰
+#### 🔰Check the progress 🔰
 
 1. Into the src folder 📁 create a new folder named `__test__`, inside of it 📄 a new test file, for example ***app.spec.js***
 
 ```javascript
-import 'jest-dom/extend-expect'; // ⬅️⬅️⬅️ Jest-dom
-import '@testing-library/react/cleanup-after-each'; // ⬅️⬅️⬅️ React-testing-library
 import React from 'react';
-import { render } from '@testing-library/react
-';
+import '@testing-library/jest-dom/extend-expect' // ⬅️⬅️⬅️ Jest-dom
+import '@testing-library/react/cleanup-after-each'; // ⬅️⬅️⬅️ React-testing-library
+import { render } from '@testing-library/react';
 import App from '../app';
 
 test('should save the world', () => {
@@ -1233,7 +1513,9 @@ test('should save the world', () => {
 2. ▶️ Run `npm t` in your command line, and if all is green, everything is right
 
 
-### Jest axe
+### Jest aXe
+
+- [Jest aXe Github](https://github.com/nickcolley/jest-axe)
 
 > 📖 **Axe** is an accessibility testing engine for websites and others HTML-based user interfaces
 
@@ -1241,11 +1523,22 @@ test('should save the world', () => {
 
 1. 🔌 Install [jest-axe](https://www.npmjs.com/package/jest-axe) as a devDependency
 
-`npm install --save-dev jest-axe`
+```
+npm install --save-dev jest-axe
+```
 
-🔰**Check the progress** 🔰
+#### 🔰Check the progress 🔰
 
 1. Let’s add some code to ***kitten.js*** and 📄 create a new test file for it (in the *__test__* folder, create a ***kitten.spec.js*** file)
+
+2. 🔌 Install [regenerator-runtime](https://www.npmjs.com/package/regenerator-runtime) as a devDependency
+
+> 📖 Standalone runtime for Regenerator-compiled generator and async functions
+
+```
+npm install --save-dev regenerator-runtime
+```
+
 
 *kitten.js*
 ```javascript
@@ -1272,29 +1565,13 @@ function kitten() {
 
 export default kitten;
 ```
----
-
-<!-- TODO: modify babel polyfill -->
-Babel polyfill was deprecated, use this: https://babeljs.io/docs/en/next/babel-polyfill.html
-
-In order to use async/await in our test, we need 🔌install [@babel/polyfill](https://www.npmjs.com/package/@babel/polyfill)
-
-```
-npm install --save-dev @babel/polyfill
-```
-> Then import it in each test that use this functionality
-
-```
-import '@babel/polyfill'
-```
----
 
 *kitten.spec.js*
 ```javascript
-import '@babel/polyfill'; // ⬅️⬅️⬅️ we speak about that when we start speaking about Jest
-import 'jest-dom/extend-expect';
-import '@testing-library/react/cleanup-after-each';
 import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/react/cleanup-after-each';
+import 'regenerator-runtime/runtime'; // ⬅️⬅️⬅️ regenerator-runtime
 import { render } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import Kitten from '../kitten';
@@ -1308,9 +1585,467 @@ test('should whatever', async () => {
 });
 ```
 
-2. ▶️ Run `npm t` and if everything is correct this test not pass 🔴, and that’s cool, if you see this error: "Form elements must have labels (label)”, now you know that you need a label for your form elements
+2. ▶️ Run `npm t`. If everything is correct this test not pass 🔴, and that’s cool. In the console you can see this error: "Form elements must have labels (label)”, now you know that you need a label for your form elements
 
-<!-- TODO: Crear un archivo de configuración de jest con las cosas comunes -->
+## Jest.setup.js
+
+> 📖 In ***jest.setup.js*** we can put all the generic declarations for our test, with this, we prevent to repeat lots of lines in our different test files
+
+1. 📄 Create a new file in the project root named ***jest.setup.js***
+
+```javascript
+import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/react/cleanup-after-each';
+```
+
+2. But **Jest** needs to find this file in order to use this globals imports, we are going to 📄 create a new file in the project root named [***jest.config.js***](https://jestjs.io/docs/en/configuration). Here we can config our jest environment.
+
+```javascript
+module.exports = {
+  modulePaths: ['./src'],
+  verbose: true,
+  setupFilesAfterEnv: ['./jest.setup.js'],
+};
+```
+
+3. After this configurations, we can 💣 delete in the test files the imported packages in the ***jest.setup.js***
+
+#### 🔰Check the progress 🔰
+
+1. Now ▶️ run `npm t` and if everything is correct you should see the same error as the last 🔰Check the progress 🔰from **Jest aXe**
+
+
+## Storybook
+
+- [Storybook oficial website](https://storybook.js.org)
+- [Storybook oficial docs](https://storybook.js.org/docs/basics/introduction/)
+
+> 📖 Storybook is an open source tool for developing UI components in isolation. It makes building stunning UIs organized and efficient.
+
+1. ▶️ Run `npx -p @storybook/cli sb init` in your console
+
+---
+This commands does several things:
+
+1. 🔌 Install storybook
+
+2. Add some scripts to your package.json
+
+3. 📁Creates a **.storybook** folder with two files inside: ***config.js*** and ***webpack.config.js***
+
+*config.js*
+
+```javascript
+import { configure } from '@storybook/react';
+
+// automatically import all files ending in *.stories.js
+const req = require.context('../stories', true, /\.stories\.js$/);
+function loadStories() {
+  req.keys().forEach(filename => req(filename));
+}
+
+configure(loadStories, module);
+```
+
+*webpack.config.js*
+```javascript
+// you can use this file to add your custom webpack plugins, loaders and anything you like.
+// This is just the basic way to add additional webpack configurations.
+// For more information refer the docs: https://storybook.js.org/configurations/custom-webpack-config
+
+module.exports = {
+  plugins: [
+    // your custom plugins
+  ],
+  module: {
+    rules: [
+      // add your custom rules.
+    ],
+  },
+};
+```
+
+4. 📁Creates a **stories** folder with a story example
+
+---
+
+2. ▶️ Run `npm run storybook` in your console, and storybook starts to run in your browser. Thanks to the stories examples you can see the complete **storybook UI** rendering a component
+
+> Now with all this setup we can start to work with **Storybook**
+
+### Creating our first *story*
+
+1. 📁 Create a new folder **src/components/button**
+
+2. 📄 Create 2 new files inside the button folder: ***index.js*** and ***styles.js***
+
+*index.js*
+
+```javascript
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import { Btn } from './styles';
+
+const Button = props => {
+  const { children, onClick } = props;
+
+  return <Btn onClick={onClick}>{children}</Btn>;
+};
+
+Button.propTypes = {
+  children: PropTypes.string,
+  onClick: PropTypes.func,
+};
+
+export default Button;
+```
+
+*styles.js*
+```javascript
+import styled from 'styled-components';
+import { darken } from 'polished';
+
+const bgColor = '#8a00d4';
+
+export const Btn = styled.button`
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1rem;
+  background-color: ${bgColor};
+  color: #ffffff;
+  font-size: 1rem;
+  transition: background-color 0.5s;
+
+  &:hover {
+    background-color: ${darken(0.1, bgColor)};
+  }
+`;
+```
+
+3. Inside the **stories**  folder 📄 create a new file called ***button.stories.js***
+
+```javascript
+import React from 'react';
+
+import { storiesOf } from '@storybook/react';
+
+import Button from '../src/components/button';
+
+storiesOf('Button', module).add('with label', () => <Button>Hello World!</Button>);
+```
+
+4. ▶️ Run `npm run storybook` in your console and you can see your component rendered inside **Storybook UI**
+
+### Customize our Storybook
+
+- [Storybook - theming](https://storybook.js.org/docs/configurations/theming/)
+
+1. 📄 Create a new file ***theme.js*** inside **.storybook** folder
+
+*example of theme.js from the official docs*
+
+```javascript
+import { create } from '@storybook/theming';
+
+export default create({
+  base: 'light', // base colors are 'light' or 'dark'
+
+  colorPrimary: 'hotpink',
+  colorSecondary: 'deepskyblue',
+
+  // UI
+  appBg: 'white',
+  appContentBg: 'silver',
+  appBorderColor: 'grey',
+  appBorderRadius: 4,
+
+  // Typography
+  fontBase: '"Open Sans", sans-serif',
+  fontCode: 'monospace',
+
+  // Text colors
+  textColor: 'black',
+  textInverseColor: 'rgba(255,255,255,0.9)',
+
+  // Toolbar default and active colors
+  barTextColor: 'silver',
+  barSelectedColor: 'black',
+  barBg: 'hotpink',
+
+  // Form colors
+  inputBg: 'white',
+  inputBorder: 'silver',
+  inputTextColor: 'black',
+  inputBorderRadius: 4,
+
+  brandTitle: 'My custom storybook',
+  brandUrl: 'https://example.com',
+  brandImage: 'https://placehold.it/350x150',
+});
+```
+
+2. ✏️ Modify ***.storybook/config.js***
+
+```javascript
+import { configure, addParameters } from '@storybook/react';
+import theme from './theme';
+
+// automatically import all files ending in *.stories.js
+const req = require.context('../stories', true, /\.stories\.js$/);
+function loadStories() {
+  req.keys().forEach(filename => req(filename));
+}
+
+addParameters({
+  options: {
+    theme: theme,
+  },
+});
+
+configure(loadStories, module);
+```
+
+3. Play with the colors and create your brand theme, enjoy 🎪!
+
+
+### Addons
+
+- [Storybook - addons](https://storybook.js.org/addons/)
+- [Storybook - addons - Github](https://github.com/storybookjs/storybook/tree/next/addons)
+
+1. Inside **.storybook** folder, 📄 create a new file called ***addons.js***
+
+#### Actions
+
+1. 🔌 Install [@storybook/addon-actions](https://www.npmjs.com/package/@storybook/addon-actions) as a devDependency
+
+> 📖 Storybook Addon Actions can be used to display data received by event handlers in Storybook
+
+<!-- TODO: Check if it's necessary to install actions -->
+
+```
+npm install --save-dev @storybook/addon-actions
+```
+
+2. ✏️ Modify ***addons.js*** adding the addon-actions register
+
+```javascript
+import '@storybook/addon-actions/register';
+```
+
+3. ✏️ Modify ***button.stories.js*** file using the **actions** addon
+
+```javascript
+import React from 'react';
+
+import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+
+import Button from '../src/components/button';
+
+storiesOf('Button', module).add('with label', () => <Button onClick={action('button-click')}>Hello World!</Button>);
+```
+
+4. Relaunch **storybook**, now you can see a new tab called *Actions*, if you click in the button, a action is printed in the *Actions* tab
+
+#### links
+
+1. 🔌 Install [@storybook/addon-links](https://www.npmjs.com/package/@storybook/addon-links) as a devDependency
+
+```
+npm install --save-dev @storybook/addon-links
+```
+
+> 📖 Storybook Links addon can be used to create links that navigate between stories in Storybook
+
+2. Create a new component ***src/components/toLink.js***
+
+```javascript
+import React from 'react';
+
+const ToLink = () => {
+  return <div>You arrive hear thanks to addon-links</div>;
+};
+
+export default ToLink;
+```
+
+3. 📄 Create a new stories file ***toLink.stories.js***
+
+```javascript
+import React from 'react';
+
+import { storiesOf } from '@storybook/react';
+
+import ToLink from '../src/components/toLink';
+
+storiesOf('ToLink', module).add('to check addon-links', () => <ToLink />);
+```
+
+4. ✏️ Modify ***addons.js*** adding the **addon-links** register
+
+```javascript
+//...
+import '@storybook/addon-links/register';
+```
+
+5. ✏️ Modify ***button.stories.js*** for use the links addon
+
+```javascript
+import React from 'react';
+
+import { storiesOf } from '@storybook/react';
+import { linkTo } from '@storybook/addon-links';
+
+import Button from '../src/components/button';
+
+storiesOf('Button', module).add('with label', () => (
+  <Button onClick={linkTo('ToLink', 'to check addon-links')}>Hello World!</Button>
+));
+```
+
+6. Relaunch **storybook** and go to the button stories, then click on the button, if everything is fine you will be redirect to the ToLink story
+
+#### withInfo
+
+1. 🔌 Install [@storybook/addon-info](https://www.npmjs.com/package/@storybook/addon-info) as a devDependency
+
+```
+npm install --save-dev @storybook/addon-info
+```
+
+> 📖 Storybook Info Addon will show additional information for your stories in Storybook. Useful when you want to display usage or other types of documentation alongside your story.
+
+2. ✏️ Modify ***.storybook/config.js*** adding globaly **addon-info** as a decorator
+
+```javascript
+import { configure, addParameters, addDecorator } from '@storybook/react';
+import { withInfo } from '@storybook/addon-info';
+import theme from './theme';
+
+// automatically import all files ending in *.stories.js
+const req = require.context('../stories', true, /\.stories\.js$/);
+function loadStories() {
+  req.keys().forEach(filename => req(filename));
+}
+
+addParameters({
+  options: {
+    theme: theme,
+  },
+});
+
+addDecorator(withInfo);
+
+configure(loadStories, module);
+```
+
+3. If the console throw and error related with css, ✏️ modify ***storybook/webpack.config.js*** adding **style-loader** and **css-loader**
+
+```json
+module.exports = {
+  plugins: [
+    // your custom plugins
+  ],
+  module: {
+    rules: [
+      // add your custom rules.
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+};
+```
+
+4. ✏️ Modify the ***components/button/index.js*** to see the prop-types table with and full example of information
+
+```javascript
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import { Btn } from './styles';
+
+const Button = props => {
+  const { children, onClick } = props;
+
+  return <Btn onClick={onClick}>{children}</Btn>;
+};
+
+Button.defaultProps = {
+  children: 'Hello World!',
+};
+
+Button.propTypes = {
+  /** String with the text to show in the button*/
+  children: PropTypes.string,
+  /** Function to execute when the button is clicked */
+  onClick: PropTypes.func.isRequired,
+};
+
+export default Button;
+```
+
+5. This is the most basic use of **addon-info** if you follow the documentation, you can find useful information to add more functionality to this addon
+
+<!-- TODO: If any source of documentation is better than this addon, we delete the last point, if not extends this info -->
+
+#### knobs
+
+#### centered
+
+#### backgrounds
+
+#### viewport
+
+#### a11y
+
+#### source
+
+#### notes
+
+#### console
+
+#### cssresources
+
+#### docs
+
+#### Testing...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- TODO: Styled components + Polished -->
+<!-- TODO: PropTypes -->
+
+
+3. 🔌 Install [@storybook/addon-knobs](https://www.npmjs.com/package/@storybook/addon-knobs) as a devDependency
+
+> 📖 **Storybook Addon Knobs** allow you to edit props dynamically using the Storybook UI. You can also use Knobs as a dynamic variable inside stories in Storybook
+
+```
+npm install --save-dev @storybook/addon-knobs
+```
+
+4. Inside the **.storybook** folder we are going to 📄 create a new file named ***addons.js***
 
 ---
 
@@ -1320,18 +2055,6 @@ test('should whatever', async () => {
 - Check the progress -> #### :beginner: Check the progress :beginner:
 - VSCode -> #### :vs: VSCode users:
 
-
-<!-- TODO: Babel polyfill -->
-> If you need use async/await in your test 🔌 install [@babel/polyfill](https://www.npmjs.com/package/@babel/polyfill)
-
-```
-npm install --save-dev @babel/polyfill
-```
-> Then import it in each test that use this functionality
-
-```
-import '@babel/polyfill'
-```
 
 
 <!-- TODO: Jest working with dynamic import. Add with the dynamic import section -->
